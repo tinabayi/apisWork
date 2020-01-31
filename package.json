@@ -1,0 +1,29 @@
+{
+  "name": "apiswork",
+  "version": "3.0.0",
+  "description": "API for GET,POST,DELETE,UPDATE data",
+  "main": "index.js",
+  "scripts": {
+    "test": "run"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tinabayi/apisWork.git"
+  },
+  "keywords": [
+    "API"
+  ],
+  "author": "christine",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tinabayi/apisWork/issues"
+  },
+  "homepage": "https://github.com/tinabayi/apisWork#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "mysql": "^2.18.1",
+    "nodemon": "^2.0.2"
+  }
+}
