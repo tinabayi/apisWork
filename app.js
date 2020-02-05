@@ -30,16 +30,16 @@ Connection.connect((error)=>{
     
 //POST API        
      app.post('/apiswork/api/items',(req,res)=>{
-    //      let item= req.body;
-    //    console.log(item.prodId)
-    //     res.send( 'data sent')
-    const prod_id= req.body.prodId
-    const prod_name= req.body.prodName
-    const prod_amount= req.body.prodAmount
-    console.log(prod_id);
-    console.log(prod_name);
-    console.log(prod_amount);
-     Connection.query('INSERT INTO products SET prodId = ?,prodName = ?, prodAmount = ?',[prod-Id,prod_name,prod_mount],function(err,rows,fields){
+        let item= req.body;
+        console.log(item.prodId)
+        res.send( 'data sent')
+        const prod_id= req.body.prodId
+        const prod_name= req.body.prodName
+        const prod_amount= req.body.prodAmount
+        console.log(prod_id);
+        console.log(prod_name);
+        console.log(prod_amount);
+     Connection.query('INSERT INTO products SET prodId = ?,prodName = ?, prodAmount = ?',[prod_id, prod_name, prod_amount],function(err,rows,fields){
         if(!err){
             res.send('successfull send')
         }else{
