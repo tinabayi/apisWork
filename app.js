@@ -15,7 +15,7 @@ const Connection=mysql.createConnection({
 
 })
  
-app.listen(5000,()=>{console.log('server running on port 5000')})
+app.listen(9000,()=>{console.log('This server is running on port 9000')})
 
 Connection.connect((error)=>{
     if(!error){
@@ -56,3 +56,19 @@ app.delete('/apiswork/api/products/:id',(req,res)=>{
          }
      })
  })
+ //UPDATE API
+ app.put('/apiswork/api/products/:id',(req,res)=>{
+    const params = req.body
+    const product_id = params.prodId
+    const product_name=params.prodName
+    const product_amount=params.prodAmount
+     Connection.query('update products SET prodId = ?,prodName = ?,prodAmount=?',[product_id, product_name,product_amount],(err,rows,fields)=>{
+         if(!err){
+             res.send("updated sawa")
+             console.log('it is update')
+         }else{
+             console.log("not updated")
+         }
+     })
+ })
+ 
