@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
-
+const cors = require('cors');
+app.use(cors());
 const bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(express.static('./public'));
@@ -31,15 +32,8 @@ Connection.connect((error)=>{
 //POST API        
      app.post('/apiswork/api/items',(req,res)=>{
         let item= req.body;
-        console.log(item.prodId)
-        res.send( 'data sent')
-        const prod_id= req.body.prodId
-        const prod_name= req.body.prodName
-        const prod_amount= req.body.prodAmount
-        console.log(prod_id);
-        console.log(prod_name);
-        console.log(prod_amount);
-     Connection.query('INSERT INTO products SET prodId = ?,prodName = ?, prodAmount = ?',[prod_id, prod_name, prod_amount],function(err,rows,fields){
+       
+     Connection.query('INSERT INTO products SET prodId = ?,prodName = ?, prodAmount = ?',[item.prodId, item.prodName,item.prodAmount],function(err,rows,fields){
         if(!err){
             res.send('successfull send')
         }else{
@@ -51,23 +45,14 @@ Connection.connect((error)=>{
 });
 //DELETE API
 
-app.delete('/apiswork/api/products/:prodId',(req,res)=>{
-    const products=[{
-        prodId:6,
-        prodName:'umunyu',
-        prodAmount:200
-
-    }]
-const product= products.find(c=>c === parseInt(req.params.prodId));
-if(!product){
-    res.send('the product with this id not found');
-    console.log('not found')
-}
-else{
-    console.log('product found')
-}
-    const index= products.indexOf(product);
-    products.splice(index, 1 )
-    res.send(product)
-    console.log('not found')
+app.delete('/apiswork/api/products/:id',(req,res)=>{
+    const product_id = req.body.prodId
+     Connection.query('DELETE FROM products WHERE prodId = ?',[product_id],(err,rows,fields)=>{
+         if(!err){
+             res.send("deleted sawa")
+             console.log('it is deleted')
+         }else{
+             console.log("not deleted")
+         }
+     })
  })
