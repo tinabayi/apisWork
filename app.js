@@ -7,7 +7,7 @@ app.use(bodyParser.json());
 app.use(express.static('./public'));
 
 const mysql=require('mysql')
-const Connection=mysql.createConnection({
+const pool= mysql.createPool({
    host:'localhost',
    user:'root',
    password:'',
@@ -17,14 +17,14 @@ const Connection=mysql.createConnection({
  
 app.listen(9000,()=>{console.log('This server is running on port 9000')})
 
-Connection.connect((error)=>{
+pool.getConnection((error)=>{
     if(!error){
           console.log("connect to product database")
      }
   })
 //GET API
         app.get('/apiswork/api/products', (req, res) => {
-        Connection.query('SELECT * FROM products',(err,rows,field)=>{
+            pool.query('SELECT * FROM products',(err,rows,field)=>{
         res.send(rows)
             })  
         });
@@ -32,8 +32,9 @@ Connection.connect((error)=>{
 //POST API        
      app.post('/apiswork/api/items',(req,res)=>{
         let item= req.body;
+        console.log(item)
        
-     Connection.query('INSERT INTO products SET prodId = ?,prodName = ?, prodAmount = ?',[item.prodId, item.prodName,item.prodAmount],function(err,rows,fields){
+        pool.query('INSERT INTO products SET prodId = ?,prodName = ?, prodAmount = ?',[item.prodId, item.prodName,item.prodAmount],function(err,rows,fields){
         if(!err){
             res.send('successfull send')
         }else{
@@ -47,7 +48,7 @@ Connection.connect((error)=>{
 
 app.delete('/apiswork/api/products/:id',(req,res)=>{
     const product_id = req.body.prodId
-     Connection.query('DELETE FROM products WHERE prodId = ?',[product_id],(err,rows,fields)=>{
+    pool.query('DELETE FROM products WHERE prodId = ?',[product_id],(err,rows,fields)=>{
          if(!err){
              res.send("deleted sawa")
              console.log('it is deleted')
@@ -62,7 +63,7 @@ app.delete('/apiswork/api/products/:id',(req,res)=>{
     const product_id = params.prodId
     const product_name=params.prodName
     const product_amount=params.prodAmount
-     Connection.query('update products SET prodId = ?,prodName = ?,prodAmount=?',[product_id, product_name,product_amount],(err,rows,fields)=>{
+    pool.query('update products SET prodId= ?, prodName = ?,prodAmount=? , WHERE prodId =product_id',[ product_id, product_name,product_amount],(err,rows,fields)=>{
          if(!err){
              res.send("updated sawa")
              console.log('it is update')
